@@ -1,14 +1,27 @@
 var grid = [];
-const dim = 128;
-const mult = 6;
+const dim = 100;
+const mult = 8;
+var speed;
 
 function drawGrid() {
+  background( 127 );
+  
+  noStroke();
+  fill( 255, 230, 0 );
   for( let y = 0; y < dim; y++ ) {
     for( let x = 0; x < dim; x++ ) {
       if( grid[y][x] ) {
         rect( x*mult, y*mult, mult, mult );
       }
     }
+  }
+  
+  stroke( 130 );
+  for( let x = 0; x < dim; x++ ) {
+    line(x*mult,0,x*mult,dim*mult);
+  }
+  for( let y = 0; y < dim; y++ ) {
+    line(0,y*mult,dim*mult,y*mult);
   }
 }
 
@@ -68,9 +81,16 @@ function stepGrid() {
 
 function setup() {
   createCanvas( dim*mult, dim*mult );
-  background( 127 );
-  noStroke();
-  fill( 255, 230, 0 );
+  
+  speed = select('#speed');
+  speed.changed(function(){
+    if( speed.value() === 0 ) {
+      noLoop();
+    } else {
+      loop();
+    }
+    frameRate( speed.value() );
+  });
   
   // Initialize grid
   for( let y = 0; y < dim; y++ ) {
@@ -85,7 +105,6 @@ function setup() {
 }
 
 function draw() {
-  background( 127 );
   grid = stepGrid();
   drawGrid();
 }

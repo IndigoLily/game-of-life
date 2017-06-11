@@ -1,6 +1,6 @@
 var grid = [];
 const dim = 128;
-const mult = 3;
+const mult = 6;
 
 function drawGrid() {
   for( let y = 0; y < dim; y++ ) {
@@ -23,12 +23,8 @@ function isAlive( x, y ) {
     }
     
     for( let j = -1; j <= 1; j++ ) {
-      // skip if out of bounds
-      if( x+j < 0 || x+j >= dim ) {
-        continue;
-      }
-      // skip if center
-      if( i === 0 && j === 0 ) {
+      // skip if out of bounds or center
+      if( x+j < 0 || x+j >= dim || (i === 0 && j === 0) ) {
         continue;
       }
       
@@ -38,20 +34,23 @@ function isAlive( x, y ) {
     }
   }
   
-  // TODO: simplify into single statement
-  if( cell ) {
-    if( nbrs < 2 ) {
-      return false;
-    } else if( nbrs <= 3 ) {
-      return true;
-    } else if( nbrs > 3 ) {
-      return false;
-    }
-  } else {
-    if( nbrs === 3 ) {
-      return true;
-    }
-  }
+  // Explicit form
+  // if( cell ) {
+  //   if( nbrs < 2 ) {
+  //     return false;
+  //   } else if( nbrs <= 3 ) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // } else {
+  //   if( nbrs === 3 ) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+  return ( cell ) ? ( nbrs >= 2 && nbrs <= 3 ) : ( nbrs === 3 );
 }
 
 function stepGrid() {
@@ -69,7 +68,7 @@ function stepGrid() {
 
 function setup() {
   createCanvas( dim*mult, dim*mult );
-  background( 200 );
+  background( 127 );
   noStroke();
   fill( 255, 230, 0 );
   
@@ -86,7 +85,7 @@ function setup() {
 }
 
 function draw() {
-  background( 200 );
+  background( 127 );
   grid = stepGrid();
   drawGrid();
 }

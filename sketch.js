@@ -91,6 +91,7 @@ function setup() {
   speed.changed(function(){
     if( speed.value() === 0 ) {
       noLoop();
+      return;
     } else {
       loop();
     }

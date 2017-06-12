@@ -1,7 +1,6 @@
 var grid = [];
 const dim = 100;
 const mult = 8;
-var speed;
 
 function drawGrid() {
   background( 127 );
@@ -80,9 +79,16 @@ function stepGrid() {
 }
 
 function setup() {
-  createCanvas( dim*mult, dim*mult );
+  var canv = createCanvas( dim*mult, dim*mult );
+  canv.mousePressed(function(){
+    var x = Math.floor(mouseX/mult)
+    var y = Math.floor(mouseY/mult)
+    console.log(x+", "+y);
+    grid[y][x] = !grid[y][x];
+    drawGrid();
+  });
   
-  speed = select('#speed');
+  var speed = select('#speed');
   speed.changed(function(){
     if( speed.value() === 0 ) {
       noLoop();
@@ -92,11 +98,30 @@ function setup() {
     frameRate( speed.value() );
   });
   
+  var clear = select('#clear');
+  clear.mouseClicked(function(){
+    for( let y = 0; y < dim; y++ ) {
+      for( let x = 0; x < dim; x++ ) {
+        grid[y][x] = false;
+      }
+    }
+    drawGrid();
+  });
+  
+  var randButton = select('#random');
+  randButton.mouseClicked(function(){
+    for( let y = 0; y < dim; y++ ) {
+      for( let x = 0; x < dim; x++ ) {
+        grid[y][x] = ( Math.random() > .75 );
+      }
+    }
+  });
+  
   // Initialize grid
   for( let y = 0; y < dim; y++ ) {
     grid[y] = [];
     for( let x = 0; x < dim; x++ ) {
-      grid[y][x] = ( Math.random() > .9 );
+      grid[y][x] = ( Math.random() > .75 );
     }
   }
   
@@ -107,4 +132,7 @@ function setup() {
 function draw() {
   grid = stepGrid();
   drawGrid();
+}
+
+function mousePressed() {
 }

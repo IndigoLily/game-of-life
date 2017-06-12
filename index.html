@@ -2,15 +2,24 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.10/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.10/addons/p5.dom.min.js"></script>
     <title>Game of Life</title>
   </head>
   <body>
-    <input id="speed" type="range" min="0" max="30" value="20">
-    <p>Speed</p>
-    <input id="clear" type="button" value="Clear">
-    <input id="random" type="button" value="Randomize">
+    
+    <form>
+      
+      Speed: 
+      <input id="speed" type="range" min="0" max="6" step=".5" value="4">
+      
+      <input id="clear" type="button" value="Clear">
+      
+      <input id="random" type="button" value="Randomize">
+      
+    </form>
+    
     <script src="sketch.js"></script>
   </body>
 </html>

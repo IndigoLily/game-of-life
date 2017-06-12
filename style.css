@@ -1,0 +1,16 @@
+input[type="button"] {
+  padding: 6px;
+  border: none;
+  margin-left: 20px;
+}
+
+form {
+  vertical-align: top;
+}
+
+canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

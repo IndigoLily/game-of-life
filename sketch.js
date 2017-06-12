@@ -15,11 +15,11 @@ function drawGrid() {
     }
   }
   
-  stroke( 130 );
-  for( let x = 0; x < dim; x++ ) {
+  stroke( 120 );
+  for( let x = 0; x <= dim; x++ ) {
     line(x*mult,0,x*mult,dim*mult);
   }
-  for( let y = 0; y < dim; y++ ) {
+  for( let y = 0; y <= dim; y++ ) {
     line(0,y*mult,dim*mult,y*mult);
   }
 }
@@ -79,7 +79,7 @@ function stepGrid() {
 }
 
 function setup() {
-  var canv = createCanvas( dim*mult, dim*mult );
+  var canv = createCanvas( dim*mult+1, dim*mult+1 );
   canv.mousePressed(function(){
     var x = Math.floor(mouseX/mult);
     var y = Math.floor(mouseY/mult);

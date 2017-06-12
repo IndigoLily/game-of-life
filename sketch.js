@@ -81,9 +81,8 @@ function stepGrid() {
 function setup() {
   var canv = createCanvas( dim*mult, dim*mult );
   canv.mousePressed(function(){
-    var x = Math.floor(mouseX/mult)
-    var y = Math.floor(mouseY/mult)
-    console.log(x+", "+y);
+    var x = Math.floor(mouseX/mult);
+    var y = Math.floor(mouseY/mult);
     grid[y][x] = !grid[y][x];
     drawGrid();
   });
@@ -95,8 +94,9 @@ function setup() {
     } else {
       loop();
     }
-    frameRate( speed.value() );
+    frameRate( Math.pow( 2, speed.value() ) );
   });
+  frameRate( Math.pow( 2, speed.value() ) );
   
   var clear = select('#clear');
   clear.mouseClicked(function(){
@@ -126,13 +126,9 @@ function setup() {
   }
   
   drawGrid();
-  frameRate(20);
 }
 
 function draw() {
   grid = stepGrid();
   drawGrid();
-}
-
-function mousePressed() {
 }

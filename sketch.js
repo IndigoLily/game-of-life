@@ -1,12 +1,27 @@
 var grid = [];
-const dim = 100;
-const mult = 8;
+const dim = 128;
+var mult = 2;
+var lines = true;
+
+function changeSize( size ) {
+  // choose biggest size that fits inside window
+  if( size < 1 ) {
+    mult = 0;
+    while( dim*mult+1 < windowHeight && dim*mult+1 < windowWidth ) {
+      mult++;
+    }
+    mult -= 2;
+  } else {
+    mult = size;
+  }
+  resizeCanvas( dim*mult+1, dim*mult+1 );
+}
 
 function drawGrid() {
-  background( 127 );
+  background( 255 );
   
   noStroke();
-  fill( 255, 230, 0 );
+  fill( '#ef3340' );
   for( let y = 0; y < dim; y++ ) {
     for( let x = 0; x < dim; x++ ) {
       if( grid[y][x] ) {
@@ -15,12 +30,14 @@ function drawGrid() {
     }
   }
   
-  stroke( 120 );
-  for( let x = 0; x <= dim; x++ ) {
-    line(x*mult,0,x*mult,dim*mult);
-  }
-  for( let y = 0; y <= dim; y++ ) {
-    line(0,y*mult,dim*mult,y*mult);
+  if( mult >= 3 && lines ) {
+    stroke( 240 );
+    for( let x = 0; x <= dim; x++ ) {
+      line(x*mult,0,x*mult,dim*mult);
+    }
+    for( let y = 0; y <= dim; y++ ) {
+      line(0,y*mult,dim*mult,y*mult);
+    }
   }
 }
 
@@ -62,7 +79,7 @@ function isAlive( x, y ) {
   //     return false;
   //   }
   // }
-  return ( cell ) ? ( nbrs >= 2 && nbrs <= 3 ) : ( nbrs === 3 );
+  return ( cell ) ? ( nbrs === 2 || nbrs === 3 ) : ( nbrs === 3 );
 }
 
 function stepGrid() {
@@ -79,6 +96,7 @@ function stepGrid() {
 }
 
 function setup() {
+  
   var canv = createCanvas( dim*mult+1, dim*mult+1 );
   canv.mousePressed(function(){
     var x = Math.floor(mouseX/mult);
@@ -91,7 +109,6 @@ function setup() {
   speed.changed(function(){
     if( speed.value() === 0 ) {
       noLoop();
-      return;
     } else {
       loop();
     }
@@ -113,19 +130,21 @@ function setup() {
   randButton.mouseClicked(function(){
     for( let y = 0; y < dim; y++ ) {
       for( let x = 0; x < dim; x++ ) {
-        grid[y][x] = ( Math.random() > .75 );
+        grid[y][x] = ( Math.random() > .9 );
       }
     }
+    drawGrid();
   });
   
   // Initialize grid
   for( let y = 0; y < dim; y++ ) {
     grid[y] = [];
     for( let x = 0; x < dim; x++ ) {
-      grid[y][x] = ( Math.random() > .75 );
+      grid[y][x] = ( Math.random() > .9 );
     }
   }
   
+  changeSize( 0 );
   drawGrid();
 }
 
